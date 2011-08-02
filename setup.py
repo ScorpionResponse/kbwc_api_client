@@ -1,0 +1,13 @@
+from distutils.core import setup
+
+setup(
+    name='kbwc_api_client',
+    version='0.1.0',
+    author='Paul Moss',
+    author_email='mossp@oclc.org',
+    packages=['kbwc_api_client', 'kbwc_api_client.test'],
+    url='',
+    license='LICENSE.txt',
+    description='Client for the WorldCat knowledge base',
+    long_description=open('README.txt').read(),
+)
