@@ -3,6 +3,7 @@ import test.Rest
 import test.OpenURL
 import sys
 
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(test.Rest.suite())
@@ -11,4 +12,3 @@ def suite():
 
 runner = unittest.TextTestRunner(verbosity=2)
 runner.run(suite())
-
