@@ -1,5 +1,5 @@
 """
-The ApiClient module defines base classes for the different 
+The ApiClient module defines base classes for the different
 KBWC APIs.  Only HTTP APIs are currently supported.
 """
 
@@ -11,7 +11,7 @@ USER_AGENT = "KBWCpy (0.1.0)"
 
 class HttpApiClient:
     """
-    HttpApiClient is a helper class to provide a base of functionality 
+    HttpApiClient is a helper class to provide a base of functionality
     for all clients of the different types of API queries that use HTTP.
 
     This class should never be called directly.  Instead use
@@ -28,7 +28,7 @@ class HttpApiClient:
 
     def create_query_string(self, **kwargs):
         '''Format the arguments into a query string.
-            
+
            Certain arguments are rewritten slightly to use the API conventions.
            institution_id and wskey are always added.
         '''
@@ -58,7 +58,7 @@ class HttpApiClient:
 
     def get_response(self, query):
         '''Retrieves a response from the server and does minimal handling of response codes.
-        
+
            Most clients should use execute_query(query) instead of this unless access
            to the raw response is required.
            Returns None if there was a problem.
