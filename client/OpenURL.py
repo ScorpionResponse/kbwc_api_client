@@ -1,11 +1,11 @@
 
-from ApiClient import ApiClient
+from ApiClient import HttpApiClient
 import logging
 
-class OpenURL(ApiClient):
+class OpenURL(HttpApiClient):
 
     def __init__(self, institution_id, wskey, url_base, response_format="xml"):
-        ApiClient.__init__(self, institution_id, wskey, url_base, response_format)
+        HttpApiClient.__init__(self, institution_id, wskey, url_base, response_format)
 
     def openurl_query(self, **kwargs):
         pass
