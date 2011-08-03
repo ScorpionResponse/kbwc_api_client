@@ -9,6 +9,6 @@ def suite():
     suite.addTest(test.OpenURL.suite())
     return suite
 
-runner = unittest.TextTestRunner()
-runner.run( suite() )
+runner = unittest.TextTestRunner(verbosity=2)
+runner.run(suite())
 
