@@ -8,6 +8,7 @@ import logging
 import simplejson
 import urllib2
 
+
 class Rest(HttpApiClient):
     '''Basic REST API that directly maps functions to most common KB queries'''
 
