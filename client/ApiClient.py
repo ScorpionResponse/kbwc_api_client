@@ -1,7 +1,6 @@
-
 """
-ApiClient is a helper class to provide a base of functionality 
-for all clients of the different types of API queries.
+The ApiClient module defines base classes for the different 
+KBWC APIs.  Only HTTP APIs are currently supported.
 """
 
 import logging
@@ -10,7 +9,14 @@ import urllib2
 USER_AGENT = "KBWCpy (0.1.0)"
 
 
-class ApiClient:
+class HttpApiClient:
+    """
+    HttpApiClient is a helper class to provide a base of functionality 
+    for all clients of the different types of API queries that use HTTP.
+
+    This class should never be called directly.  Instead use
+    either the OpenURL or Rest classes for that type of API.
+    """
 
     LOG = logging.getLogger("ApiClient")
 
@@ -20,8 +26,12 @@ class ApiClient:
         self.url_base = url_base
         self.response_format = response_format
 
-    def _query_string(self, **kwargs):
-        '''format the arguments into a query string'''
+    def create_query_string(self, **kwargs):
+        '''Format the arguments into a query string.
+            
+           Certain arguments are rewritten slightly to use the API conventions.
+           institution_id and wskey are always added.
+        '''
         q = '?'
         # Mostly this is here because "start-index" is unpythonic
         mapping = {'keyword': 'q',
@@ -46,7 +56,13 @@ class ApiClient:
             q += "alt=json&"
         return q.rstrip('&')
 
-    def _get_response(self, query):
+    def get_response(self, query):
+        '''Retrieves a response from the server and does minimal handling of response codes.
+        
+           Most clients should use execute_query(query) instead of this unless access
+           to the raw response is required.
+           Returns None if there was a problem.
+        '''
         self.LOG.info("Calling URL: %s" % (query,))
         headers = {'User-Agent': USER_AGENT}
         request = urllib2.Request(query, headers=headers)
@@ -61,5 +77,6 @@ class ApiClient:
         self.LOG.debug("Status code %s from URL '%s'\n" % (response.code, query))
         return response
 
-    def _execute(self, query):
-        pass
+    def execute_query(self, query):
+        '''All subclasses should override this to provide some additional response handling.'''
+        raise NotImplementedError("This should be implemented in a subclass.")
