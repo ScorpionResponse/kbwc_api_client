@@ -1,66 +1,74 @@
+'''
+An implementation of a REST API client for the KB.
+'''
 
-from ApiClient import ApiClient
-import logging
-import urllib2
-import simplejson
+from ApiClient import HttpApiClient
 import feedparser
+import logging
+import simplejson
+import urllib2
 
-class Rest(ApiClient):
+class Rest(HttpApiClient):
+    '''Basic REST API that directly maps functions to most common KB queries'''
 
     LOG = logging.getLogger("Rest")
 
     def __init__(self, institution_id, wskey, url_base, response_format="xml"):
-        ApiClient.__init__(self, institution_id, wskey, url_base, response_format)
+        HttpApiClient.__init__(self, institution_id, wskey, url_base, response_format)
 
     def get_settings(self, **kwargs):
-        query_url = self.url_base + 'rest/settings/' + str(self.institution_id) + self._query_string()
-        return self._execute(query_url)
+        '''Return the settings for this institution and only this institution.'''
+        query_url = self.url_base + 'rest/settings/' + str(self.institution_id) + self.create_query_string()
+        return self.execute_query(query_url)
 
     def get_provider(self, provider_uid):
-        query_url = self.url_base + 'rest/providers/' + urllib2.quote(provider_uid) + self._query_string()
-        return self._execute(query_url)
+        '''Retrieve a record for a single provider by its identifier.'''
+        query_url = self.url_base + 'rest/providers/' + urllib2.quote(provider_uid) + self.create_query_string()
+        return self.execute_query(query_url)
 
     def list_providers(self, start_index=1, max_result=10, order_by='title', **kwargs):
-        query_url = self.url_base + 'rest/providers' + self._query_string(start_index=start_index, max_result=max_result, order_by=order_by, **kwargs)
-        return self._execute(query_url)
+        '''List all providers configured for this institution.'''
+        query_url = self.url_base + 'rest/providers' + self.create_query_string(start_index=start_index, max_result=max_result, order_by=order_by, **kwargs)
+        return self.execute_query(query_url)
 
     def search_providers(self, keyword=None, title=None, start_index=1, max_result=10, order_by='title', **kwargs):
-        query_url = self.url_base + 'rest/providers/search' + self._query_string(keyword=keyword, title=title, start_index=start_index, max_result=max_result, order_by=order_by, **kwargs)
-        return self._execute(query_url)
+        '''Search all providers configured for this institution.'''
+        query_url = self.url_base + 'rest/providers/search' + self.create_query_string(keyword=keyword, title=title, start_index=start_index, max_result=max_result, order_by=order_by, **kwargs)
+        return self.execute_query(query_url)
 
     def get_collection(self, collection_uid):
-        query_url = self.url_base + 'rest/collections/' + urllib2.quote(collection_uid) + self._query_string()
-        return self._execute(query_url)
+        query_url = self.url_base + 'rest/collections/' + urllib2.quote(collection_uid) + self.create_query_string()
+        return self.execute_query(query_url)
 
     def list_collections(self, start_index=1, max_result=10, order_by='title', **kwargs):
-        query_url = self.url_base + 'rest/collections' + self._query_string(start_index=start_index, max_result=max_result, order_by=order_by, **kwargs)
-        return self._execute(query_url)
+        query_url = self.url_base + 'rest/collections' + self.create_query_string(start_index=start_index, max_result=max_result, order_by=order_by, **kwargs)
+        return self.execute_query(query_url)
 
     def search_collections(self, keyword=None, title=None, collection_uid=None, provider_uid=None, start_index=1, max_result=10, order_by='title', **kwargs):
-        query_url = self.url_base + 'rest/collections/search' + self._query_string(keyword=keyword, title=title, collection_uid=collection_uid, provider_uid=provider_uid, start_index=start_index, max_result=max_result, order_by=order_by, **kwargs)
-        return self._execute(query_url)
+        query_url = self.url_base + 'rest/collections/search' + self.create_query_string(keyword=keyword, title=title, collection_uid=collection_uid, provider_uid=provider_uid, start_index=start_index, max_result=max_result, order_by=order_by, **kwargs)
+        return self.execute_query(query_url)
 
     def get_entry(self, entry_id):
-        query_url = self.url_base + 'rest/entries/' + urllib2.quote(entry_id) + self._query_string()
-        return self._execute(query_url)
+        query_url = self.url_base + 'rest/entries/' + urllib2.quote(entry_id) + self.create_query_string()
+        return self.execute_query(query_url)
 
     def list_entries(self, start_index=1, max_result=10, order_by='title', **kwargs):
-        query_url = self.url_base + 'rest/entries' + self._query_string(start_index=start_index, max_result=max_result, order_by=order_by, **kwargs)
-        return self._execute(query_url)
+        query_url = self.url_base + 'rest/entries' + self.create_query_string(start_index=start_index, max_result=max_result, order_by=order_by, **kwargs)
+        return self.execute_query(query_url)
 
     def search_entries(self, keyword=None, title=None, collection_uid=None, provider_uid=None, issn=None, isbn=None, oclcnum=None, content=None, start_index=1, max_result=10, order_by='title', **kwargs):
-        query_url = self.url_base + 'rest/entries/search' + self._query_string(keyword=keyword, title=title, collection_uid=collection_uid, provider_uid=provider_uid, content=content, start_index=start_index, max_result=max_result, order_by=order_by, **kwargs)
-        return self._execute(query_url)
+        query_url = self.url_base + 'rest/entries/search' + self.create_query_string(keyword=keyword, title=title, collection_uid=collection_uid, provider_uid=provider_uid, content=content, start_index=start_index, max_result=max_result, order_by=order_by, **kwargs)
+        return self.execute_query(query_url)
 
     def browse_entries(self, title=None, content=None, start_index=1, max_result=10, order_by='title', **kwargs):
         if title is not None:
             title = '"' + title + '%"'
         kwargs["search_type"] = "atoz"
-        query_url = self.url_base + 'rest/entries/search' + self._query_string(title=title, content=content, start_index=start_index, max_result=max_result, order_by=order_by, **kwargs)
-        return self._execute(query_url)
+        query_url = self.url_base + 'rest/entries/search' + self.create_query_string(title=title, content=content, start_index=start_index, max_result=max_result, order_by=order_by, **kwargs)
+        return self.execute_query(query_url)
 
-    def _execute(self, query):
-        response = self._get_response(query)
+    def execute_query(self, query):
+        response = self.get_response(query)
         if response is None:
             return None
         if self.response_format == "json":
