@@ -46,6 +46,7 @@ class RestTest(unittest.TestCase):
         self.assertEqual(len(npg_json), 1, 'No JSON result.')
         self.assertEqual(npg_xml[0]['id'], npg_json[0]['id'], 'XML and JSON ids are different')
 
+    @unittest.skip("Skipping due to bug WMSRELEASE-5664")
     def testGetEntrybyID(self):
         '''Compare results of get_entry with an entry_id'''
         entry_xml = self.client_xml.get_entry('036f688a982b7a702aadd05003f9742e')
@@ -54,6 +55,7 @@ class RestTest(unittest.TestCase):
         self.assertEqual(len(entry_json), 1, 'No JSON result.')
         self.assertEqual(entry_xml[0]['id'], entry_json[0]['id'], 'XML and JSON ids are different.')
 
+    @unittest.skip("Skipping due to bug WMSRELEASE-5664")
     def testGetEntrybyUID(self):
         '''Compare results of get_entry with an entry_uid'''
         entry_xml = self.client_xml.get_entry('NPG.journals,1987357')
