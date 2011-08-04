@@ -1,0 +1,9 @@
+:mod:`kbwc_api_client`
+======================
+
+.. automodule:: kbwc_api_client
+
+Clients
+-------
+
+.. autoclass:: kbwc_api_client.Rest
