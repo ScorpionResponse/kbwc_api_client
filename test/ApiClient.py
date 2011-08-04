@@ -23,6 +23,23 @@ class ApiClientTest(unittest.TestCase):
         with self.assertRaises(NotImplementedError):
             self.client_xml.execute_query('test_query')
 
+    def testMapping(self):
+        '''create_query_string should do some mappings to the right api field'''
+        self.assertIn('q=', self.client_xml.create_query_string(keyword='test'))
+        self.assertIn('start-index=', self.client_xml.create_query_string(start_index=10))
+        self.assertIn('max-results=', self.client_xml.create_query_string(max_results=10))
+        self.assertIn('order-by=', self.client_xml.create_query_string(order_by='title'))
+
+    def testAdditionalFields(self):
+        '''create_query_string should add some additional fields'''
+        self.assertIn('institution_id=', self.client_xml.create_query_string(keyword='test'))
+        self.assertIn('wskey=', self.client_xml.create_query_string(keyword='test'))
+
+    def testAltFormat(self):
+        self.assertIn('alt=json', self.client_json.create_query_string(keyword='test'))
+        self.assertNotIn('alt=json', self.client_xml.create_query_string(keyword='test'))
+        self.assertNotIn('alt=xml', self.client_json.create_query_string(keyword='test'))
+
 
 def suite():
     suite = unittest.makeSuite(ApiClientTest, 'test')
