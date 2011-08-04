@@ -1,4 +1,4 @@
-from client.Rest import Rest
+from kbwc_api_client.Rest import Rest
 import sys
 import unittest
 
