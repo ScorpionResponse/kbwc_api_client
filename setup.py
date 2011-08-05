@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name = 'kbwc_api_client',
-    version = '0.1.1',
+    version = '0.1.2',
     author = 'Paul Moss',
     author_email = 'mossp@oclc.org',
     packages = ['kbwc_api_client'],

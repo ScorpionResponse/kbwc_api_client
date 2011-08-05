@@ -1,0 +1,34 @@
+.. KBWC API Client documentation master file, created by
+   sphinx-quickstart on Wed Aug  3 19:29:42 2011.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to KBWC API Client's documentation!
+===========================================
+
+:mod:`kbwc_api_client` is a client library for working with the API to the
+`WorldCat knowledge base <http://oclc.org/knowledgebase>`.  It provides two
+possible clients:
+
+ :mod:`OpenURL`
+   A client for the OpenURL endpoint
+ :mod:`Rest`
+   A client for the REST / A to Z part of the API
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+   intro
+   tutorial
+   modules/Rest
+   modules/OpenURL
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+

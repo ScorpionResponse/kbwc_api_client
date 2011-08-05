@@ -6,7 +6,7 @@ KBWC APIs.  Only HTTP APIs are currently supported.
 import logging
 import urllib2
 
-USER_AGENT = "KBWCpy (0.1.1)"
+USER_AGENT = "KBWCpy (0.1.2)"
 
 
 class HttpApiClient:
@@ -36,7 +36,7 @@ class HttpApiClient:
         # Mostly this is here because "start-index" is unpythonic
         mapping = {'keyword': 'q',
                    'start_index': 'start-index',
-                   'max_result': 'max-results',
+                   'max_results': 'max-results',
                    'order_by': 'order-by'}
         for i in kwargs:
             if kwargs[i] is not None:
