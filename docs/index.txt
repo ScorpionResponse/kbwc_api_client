@@ -13,7 +13,7 @@ possible clients:
  :mod:`Rest`
    A client for the REST / A to Z part of the API
  :mod:`OpenURL`
-   A client for the OpenURL endpoint
+   A client for the OpenURL API
 
 Contents:
 
