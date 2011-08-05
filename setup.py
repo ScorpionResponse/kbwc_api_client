@@ -1,8 +1,9 @@
 from distutils.core import setup
+from kbwc_api_client.version import __version__
 
 setup(
     name = 'kbwc_api_client',
-    version = '0.1.4',
+    version = __version__,
     author = 'Paul Moss',
     author_email = 'mossp@oclc.org',
     packages = ['kbwc_api_client'],
