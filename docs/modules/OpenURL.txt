@@ -4,4 +4,3 @@ OpenURL API Client
 .. automodule:: kbwc_api_client.OpenURL
    :members:
    :undoc-members:
-   :inherited-members:

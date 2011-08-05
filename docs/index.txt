@@ -10,17 +10,16 @@ Welcome to KBWC API Client's documentation!
 `WorldCat knowledge base <http://oclc.org/knowledgebase>`.  It provides two
 possible clients:
 
- :mod:`OpenURL`
-   A client for the OpenURL endpoint
  :mod:`Rest`
    A client for the REST / A to Z part of the API
+ :mod:`OpenURL`
+   A client for the OpenURL endpoint
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
 
-   intro
    tutorial
    modules/Rest
    modules/OpenURL
