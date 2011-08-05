@@ -1,0 +1,7 @@
+Rest API Client
+===============
+
+.. automodule:: kbwc_api_client.Rest
+   :members:
+   :undoc-members:
+   :inherited-members:
