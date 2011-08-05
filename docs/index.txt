@@ -19,9 +19,11 @@ Contents:
 
 .. toctree::
    :maxdepth: 2
-..
+
    intro
    tutorial
+   modules/Rest
+   modules/OpenURL
 
 Indices and tables
 ==================
