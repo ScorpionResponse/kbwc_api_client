@@ -2,8 +2,13 @@
 ======================
 
 .. automodule:: kbwc_api_client
+   :members:
 
 Clients
 -------
 
-.. autoclass:: kbwc_api_client.Rest
+.. autoclass:: Rest
+   :members:
+
+.. autoclass:: OpenURL
+   :members:
