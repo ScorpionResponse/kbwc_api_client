@@ -6,7 +6,7 @@ KBWC APIs.  Only HTTP APIs are currently supported.
 import logging
 import urllib2
 
-USER_AGENT = "KBWCpy (0.1.1)"
+USER_AGENT = "KBWCpy (0.1.2)"
 
 
 class HttpApiClient:
