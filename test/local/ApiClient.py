@@ -9,9 +9,9 @@ class ApiClientTest(unittest.TestCase):
     """
 
     def setUp(self):
-        inst_id = 6569
-        wskey = '4QpcmGhh34L7LLeo7p5PNJAsz14fQtyihkeGSgEUVFB33EWkocQ3JnNQ5A6wvzKAYxRYokTzeIFdOvG4'
-        url_base = 'http://kbwcap02dxdu.dev.oclc.org:8080/kbwc-grid/'
+        inst_id = 111637
+        wskey = 'TjBKm4f7QdZwxUrvfnukshyAIPkCgt3ZieslDR23Z95rV8rmqU3gIFvKRRDaTwX4UwzoQtQYIbyCqEWe'
+        url_base = 'http://worldcat.org/webservices/kb/'
         self.client_json = HttpApiClient(inst_id, wskey, url_base, "json")
         self.client_xml = HttpApiClient(inst_id, wskey, url_base)
 
