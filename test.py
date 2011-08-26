@@ -2,9 +2,15 @@ import unittest
 import test.remote
 import test.local
 import sys
+import logging
 
 
 def suite(inc_remote=False):
+    LOG = logging.getLogger()
+    LOG.setLevel(logging.DEBUG)
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
+    LOG.addHandler(ch)
     suite = unittest.TestSuite()
     suite.addTest(test.local.ApiClient.suite())
     if inc_remote:
