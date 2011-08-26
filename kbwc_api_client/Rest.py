@@ -83,6 +83,7 @@ class Rest(HttpApiClient):
         response = self.get_response(query)
         if response is None:
             return None
+        self.LOG.debug("Response: %s" % (response,))
         if self.response_format == "json":
             d = simplejson.load(response, encoding="UTF-8")
             return self._json_reformat(d)
