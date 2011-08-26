@@ -38,7 +38,7 @@ class RestTest(unittest.TestCase):
         json = self.client_json.search_providers('Nature')
         self.assertEqual(len(xml), len(json), 'XML and JSON result sizes are different')
 
-    def testGetProvider(self):
+    def testGetCollection(self):
         '''Compare XML and JSON get_collection calls'''
         npg_xml = self.client_xml.get_collection('NPG.journals')
         npg_json = self.client_json.get_collection('NPG.journals')
