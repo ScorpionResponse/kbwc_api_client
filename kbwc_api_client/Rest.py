@@ -14,7 +14,7 @@ class Rest(HttpApiClient):
 
     LOG = logging.getLogger("Rest")
 
-    def __init__(self, institution_id, wskey, url_base, response_format="xml"):
+    def __init__(self, institution_id, wskey, url_base="http://worldcat.org/webservices/kb/", response_format="xml"):
         HttpApiClient.__init__(self, institution_id, wskey, url_base, response_format)
 
     def get_settings(self, **kwargs):

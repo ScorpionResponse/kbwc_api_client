@@ -25,6 +25,8 @@ class HttpApiClient:
         self.institution_id = institution_id
         self.wskey = wskey
         self.url_base = url_base
+        if response_format == "json":
+            raise FutureWarning("JSON format responses are unsupported at this time.")
         self.response_format = response_format
 
     def create_query_string(self, **kwargs):
