@@ -21,7 +21,7 @@ class HttpApiClient:
 
     LOG = logging.getLogger("ApiClient")
 
-    def __init__(self, institution_id, wskey, url_base, response_format="xml"):
+    def __init__(self, institution_id, wskey, url_base="http://kbwcap02dxdu.dev.oclc.org:8080/kbwc-grid/", response_format="xml"):
         self.institution_id = institution_id
         self.wskey = wskey
         self.url_base = url_base
@@ -52,7 +52,8 @@ class HttpApiClient:
                 else:
                     q += "%s=%s&" % (i, escaped_val)
         q += "institution_id=%s&" % (self.institution_id,)
-        q += "wskey=%s&" % (self.wskey,)
+        if self.wskey:
+            q += "wskey=%s&" % (self.wskey,)
         if self.response_format == "json":
             q += "alt=json&"
         return q.rstrip('&')

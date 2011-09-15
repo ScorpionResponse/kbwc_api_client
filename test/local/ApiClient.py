@@ -9,11 +9,12 @@ class ApiClientTest(unittest.TestCase):
     """
 
     def setUp(self):
-        inst_id = 111637
-        wskey = 'TjBKm4f7QdZwxUrvfnukshyAIPkCgt3ZieslDR23Z95rV8rmqU3gIFvKRRDaTwX4UwzoQtQYIbyCqEWe'
-        url_base = 'http://worldcat.org/webservices/kb/'
-        self.client_json = HttpApiClient(inst_id, wskey, url_base, "json")
-        self.client_xml = HttpApiClient(inst_id, wskey, url_base)
+        #inst_id = 111637
+        #wskey = 'TjBKm4f7QdZwxUrvfnukshyAIPkCgt3ZieslDR23Z95rV8rmqU3gIFvKRRDaTwX4UwzoQtQYIbyCqEWe'
+        inst_id = 105357
+        wskey = None
+        self.client_json = HttpApiClient(inst_id, wskey, response_format="json")
+        self.client_xml = HttpApiClient(inst_id, wskey)
 
     def tearDown(self):
         pass
