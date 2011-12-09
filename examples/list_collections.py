@@ -6,8 +6,7 @@ import logging
 
 def main(resp_form="xml"):
     print "Getting response in format: %s" % (resp_form,)
-    #inst_id = 111637
-    inst_id = 6569
+    inst_id = 111637
     wskey = 'TjBKm4f7QdZwxUrvfnukshyAIPkCgt3ZieslDR23Z95rV8rmqU3gIFvKRRDaTwX4UwzoQtQYIbyCqEWe'
     client = kbwc_api_client.Rest(inst_id, wskey, response_format=resp_form)
     response = client.list_collections()
