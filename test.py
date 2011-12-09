@@ -10,6 +10,7 @@ def suite(inc_remote=False):
     LOG.setLevel(logging.DEBUG)
     ch = logging.StreamHandler()
     ch.setLevel(logging.DEBUG)
+    #ch.setLevel(logging.INFO)
     LOG.addHandler(ch)
     suite = unittest.TestSuite()
     suite.addTest(test.local.ApiClient.suite())
