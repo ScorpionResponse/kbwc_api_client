@@ -87,7 +87,7 @@ class Rest(HttpApiClient):
         if response is None:
             return None
         if self.response_format == "json":
-            d = simplejson.load(response, encoding="UTF-8")
+            d = json.load(response, encoding="UTF-8")
             return self._json_reformat(d)
         else:
             d = feedparser.parse(response)
