@@ -9,10 +9,8 @@ class ApiClientTest(unittest.TestCase):
     """
 
     def setUp(self):
-        #inst_id = 111637
-        #wskey = 'TjBKm4f7QdZwxUrvfnukshyAIPkCgt3ZieslDR23Z95rV8rmqU3gIFvKRRDaTwX4UwzoQtQYIbyCqEWe'
-        inst_id = 105357
-        wskey = None
+        inst_id = 111637
+        wskey = 'TjBKm4f7QdZwxUrvfnukshyAIPkCgt3ZieslDR23Z95rV8rmqU3gIFvKRRDaTwX4UwzoQtQYIbyCqEWe'
         self.client_json = HttpApiClient(inst_id, wskey, response_format="json")
         self.client_xml = HttpApiClient(inst_id, wskey)
 

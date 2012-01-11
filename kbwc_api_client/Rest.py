@@ -5,7 +5,10 @@ An implementation of a REST API client for the KB.
 from ApiClient import HttpApiClient
 import feedparser
 import logging
-import simplejson
+try:
+    import json
+except ImportError:
+    import simplejson as json
 import urllib2
 
 
@@ -84,7 +87,7 @@ class Rest(HttpApiClient):
         if response is None:
             return None
         if self.response_format == "json":
-            d = simplejson.load(response, encoding="UTF-8")
+            d = json.load(response, encoding="UTF-8")
             return self._json_reformat(d)
         else:
             d = feedparser.parse(response)
