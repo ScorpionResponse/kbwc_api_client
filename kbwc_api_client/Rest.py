@@ -5,7 +5,10 @@ An implementation of a REST API client for the KB.
 from ApiClient import HttpApiClient
 import feedparser
 import logging
-import simplejson
+try:
+    import json
+except ImportError:
+    import simplejson as json
 import urllib2
 
 
