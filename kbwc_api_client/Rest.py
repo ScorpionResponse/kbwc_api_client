@@ -5,7 +5,10 @@ An implementation of a REST API client for the KB.
 from ApiClient import HttpApiClient
 import feedparser
 import logging
-import simplejson
+try:
+    import json
+except ImportError:
+    import simplejson as json
 import urllib2
 
 
@@ -14,7 +17,7 @@ class Rest(HttpApiClient):
 
     LOG = logging.getLogger("Rest")
 
-    def __init__(self, institution_id, wskey, url_base, response_format="xml"):
+    def __init__(self, institution_id, wskey, url_base="http://worldcat.org/webservices/kb/", response_format="xml"):
         HttpApiClient.__init__(self, institution_id, wskey, url_base, response_format)
 
     def get_settings(self, **kwargs):
@@ -84,51 +87,36 @@ class Rest(HttpApiClient):
         if response is None:
             return None
         if self.response_format == "json":
-            d = simplejson.load(response, encoding="UTF-8")
+            d = json.load(response, encoding="UTF-8")
             return self._json_reformat(d)
         else:
             d = feedparser.parse(response)
             if d.bozo:
                 # 'bozo' is set by feedparser if the XML does not parse correctly
                 self.LOG.warn("%s - %s\n" % (d.bozo_exception.getLineNumber(), d.bozo_exception.getMessage()))
-                self.LOG.debug(d)
             return self._xml_reformat(d)
         return None
 
     def _json_reformat(self, jsondata):
         '''Reformat the JSON response to match the XML.'''
+        self.LOG.debug("JSON Data from server: %s" % (jsondata,))
         ref = None
         if 'entries' in jsondata:
-            # skipping to entries means we lose the counts in the response.  probably should not do that
-            ref = jsondata['entries']
+            # if entries in the json then we're dealing with a multi-result response
+            ref = jsondata
         else:
             # It looks like single responses aren't lists of 1 like the XML version
             ref = [jsondata]
-
-        for i in ref:
-            # Turn all 'extensions' into top level keys in the dict
-            for j in i['extensions']:
-                name = j['name']
-                if name.startswith("kb:"):
-                    # feedparser uses _ instead of : so emulate that
-                    name = "kb_" + name[3:]
-                val = j['children']
-                # Assume all children have either zero or one value
-                if len(val) == 1:
-                    val = val[0]
-                elif len(val) == 0:
-                    val = ''
-                i[name] = val.rstrip()
-            del i['extensions']
-
+        self.LOG.debug("JSON Data reformatted: %s" % (ref,))
         return ref
 
     def _xml_reformat(self, xmldata):
         '''Reformat the XML response.  This mostly removes some junk feedparser stuck in there'''
         # feedparser was probably a bad choice
-        # skipping to entries means we lose the counts in the response.  probably should not do that
-        ref = xmldata.entries
-        for i in ref:
+        # Most of this code is here to remove the stuff it adds
+        self.LOG.debug("XML Data from server: %s" % (xmldata,))
+        ref = {'entries': []}
+        for i in xmldata.entries:
             # title_detail added by feedparser
             del i['title_detail']
             for l in i['links']:
@@ -141,4 +129,23 @@ class Rest(HttpApiClient):
             # <link rel="via"/>
             if 'link' in i:
                 del i['link']
-        return ref
+            # Reformat the underscores to colons again, not sure why this happens
+            entries = {}
+            for (k, v) in i.iteritems():
+                if k.startswith('kb_'):
+                    k = 'kb:' + k[3:]
+                entries[k] = v
+            ref['entries'].append(entries)
+        # Note that we're only pulling out the contents of the 'feed' part of the object
+        # all of the other stuff is added by feedparser
+        for (k, v) in xmldata.feed.iteritems():
+            if k.startswith('os_'):
+                k = 'os:' + k[3:]
+            ref[k] = v
+
+        self.LOG.debug("XML Data reformatted: %s" % (ref,))
+        # if there is no data in 'feed' then all we want is the entries part of the response
+        if len(xmldata.feed) == 0:
+            return ref['entries']
+        else:
+            return ref

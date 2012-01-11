@@ -6,3 +6,4 @@ TODO items:
 - remove feedparser
 - PUT/POST/DELETE
 - don't depend on simplejson alone
+- handle imports in a more standard way
