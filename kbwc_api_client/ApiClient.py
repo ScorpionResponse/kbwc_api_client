@@ -69,8 +69,8 @@ class HttpApiClient:
         headers = {'User-Agent': USER_AGENT}
         if self.response_format == 'json':
             headers['Accept'] = 'application/json'
-        elif self.response_format == 'xml':
-            headers['Accept'] = 'application/xml'
+        #elif self.response_format == 'xml':
+        #    headers['Accept'] = 'application/xml'
         request = urllib2.Request(query, headers=headers)
         try:
             response = urllib2.urlopen(request)
