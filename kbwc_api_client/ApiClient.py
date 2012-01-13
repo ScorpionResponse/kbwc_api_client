@@ -34,11 +34,6 @@ class HttpApiClient:
            institution_id and wskey are always added.
         '''
         q = '?'
-        # Mostly this is here because "start-index" is unpythonic
-        mapping = {'keyword': 'q',
-                   'start_index': 'start-index',
-                   'max_results': 'max-results',
-                   'order_by': 'order-by'}
         for i in kwargs:
             if kwargs[i] is not None:
                 try:
@@ -46,11 +41,7 @@ class HttpApiClient:
                 except:
                     # This will happen when the value is not a string
                     escaped_val = kwargs[i]
-
-                if i in mapping:
-                    q += "%s=%s&" % (mapping[i], escaped_val)
-                else:
-                    q += "%s=%s&" % (i, escaped_val)
+                q += "%s=%s&" % (i, escaped_val)
         q += "institution_id=%s&" % (self.institution_id,)
         if self.wskey:
             q += "wskey=%s&" % (self.wskey,)
