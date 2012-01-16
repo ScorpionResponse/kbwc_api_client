@@ -47,6 +47,8 @@ class HttpApiClient:
             q += "wskey=%s&" % (self.wskey,)
         if self.response_format == "json":
             q += "alt=json&"
+        elif self.response_format == "xml":
+            q += "alt=json&"
         return q.rstrip('&')
 
     def get_response(self, query):
@@ -65,6 +67,7 @@ class HttpApiClient:
         request = urllib2.Request(query, headers=headers)
         try:
             response = urllib2.urlopen(request)
+            #self.LOG.debug("Response data from server: %s" % (response.read(),))
         except urllib2.HTTPError, e:
             self.LOG.warn("Status code %s from URL '%s'\n" % (e.code, query))
             return None
