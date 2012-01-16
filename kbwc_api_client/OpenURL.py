@@ -4,16 +4,21 @@ An implementation of an OpenURL API client for the KB.
 
 from ApiClient import HttpApiClient
 import logging
+try:
+    import json
+except ImportError:
+    import simplejson as json
 import urllib2
+from util.xml2obj import xml2obj
 
 RFR_ID = "info/sid:oclc.org/KBWCpy"
 
 class OpenURL(HttpApiClient):
     '''Basic OpenURL API that can resolve article citations to links.'''
 
-    fields = ['title', 'issn', 'eissn', 'isbn', 'oclcnum', 'date',
-              'volume', 'issue', 'spage', 'epage', 'atitle', 'aulast',
-              'provider_uid', 'collection_uid', 'content', 'jkey', 'openaccess']
+    openurl_fields = ['title', 'issn', 'eissn', 'isbn', 'oclcnum', 'date',
+                      'volume', 'issue', 'spage', 'epage', 'atitle', 'aulast',
+                      'provider_uid', 'collection_uid', 'content', 'jkey', 'openaccess']
 
     def __init__(self, institution_id, wskey, url_base="http://worldcat.org/webservices/kb/", response_format="xml"):
         HttpApiClient.__init__(self, institution_id, wskey, url_base, response_format)
@@ -53,7 +58,7 @@ class OpenURL(HttpApiClient):
         for i in kwargs:
             if kwargs[i] is not None:
                 field_name = i
-                if i in fields:
+                if i in self.openurl_fields:
                     field_name = 'rft.' + i
                 elif i == 'pmid':
                     field_name = 'rft.id'
@@ -67,13 +72,15 @@ class OpenURL(HttpApiClient):
                 except:
                     # This will happen when the value is not a string
                     escaped_val = kwargs[i]
-                q += "%s=%s&" % (i, escaped_val)
+                q += "%s=%s&" % (field_name, escaped_val)
         q += "rft.institution_id=%s&" % (self.institution_id,)
         q += "rfr_id=%s&" % (RFR_ID,)
         if self.wskey:
             q += "wskey=%s&" % (self.wskey,)
         if self.response_format == "json":
             q += "svc_id=json&"
+        elif self.response_format == "xml":
+            q += "svc_id=xml&"
         return q.rstrip('&')
 
     def execute_query(self, query):
@@ -85,15 +92,14 @@ class OpenURL(HttpApiClient):
             d = json.load(response, encoding="UTF-8")
             return self._json_reformat(d)
         else:
-            d = feedparser.parse(response)
-            if d.bozo:
-                # 'bozo' is set by feedparser if the XML does not parse correctly
-                self.LOG.warn("%s - %s\n" % (d.bozo_exception.getLineNumber(), d.bozo_exception.getMessage()))
+            d = xml2obj(response)
             return self._xml_reformat(d)
         return None
     
     def _json_reformat(self, jsondata):
+        self.LOG.debug("JSON Data from server: %s" % (jsondata,))
         return jsondata
 
     def _xml_reformat(self, xmldata):
-        return xmldata
+        self.LOG.debug("XML Data from server: %s" % (xmldata,))
+        return [xmldata.record]
