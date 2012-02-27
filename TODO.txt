@@ -2,7 +2,7 @@
 TODO items:
 - mock the response from the KBWC API so we don't make the query during dev/testing
 - better documentation
-- make openurl work
+- Test OpenURL more
 - remove feedparser
 - PUT/POST/DELETE
 - don't depend on simplejson alone

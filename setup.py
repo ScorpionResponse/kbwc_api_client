@@ -1,5 +1,11 @@
 from distutils.core import setup
 from kbwc_api_client.version import __version__
+import os
+import sys
+
+if sys.argv[-1] == 'test':
+    os.system('python test.py')
+    sys.exit()
 
 setup(
     name = 'kbwc_api_client',
