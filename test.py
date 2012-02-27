@@ -15,6 +15,7 @@ def suite(inc_remote=False):
     suite = unittest.TestSuite()
     suite.addTest(test.local.ApiClient.suite())
     suite.addTest(test.local.Rest.suite())
+    suite.addTest(test.local.OpenURL.suite())
     if inc_remote:
         suite.addTest(test.remote.Rest.suite())
         suite.addTest(test.remote.OpenURL.suite())
