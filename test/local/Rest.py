@@ -30,6 +30,7 @@ class RestTest(unittest.TestCase):
         self.assertIn('wskey=', self.client_xml.create_query_string(keyword='test'))
 
     def testAltFormat(self):
+        self.assertIn('alt=xml', self.client_xml.create_query_string(keyword='test'))
         self.assertIn('alt=json', self.client_json.create_query_string(keyword='test'))
         self.assertNotIn('alt=json', self.client_xml.create_query_string(keyword='test'))
         self.assertNotIn('alt=xml', self.client_json.create_query_string(keyword='test'))

@@ -48,7 +48,7 @@ class HttpApiClient:
         if self.response_format == "json":
             q += "alt=json&"
         elif self.response_format == "xml":
-            q += "alt=json&"
+            q += "alt=xml&"
         return q.rstrip('&')
 
     def get_response(self, query):

@@ -110,6 +110,8 @@ class Rest(HttpApiClient):
             q += "wskey=%s&" % (self.wskey,)
         if self.response_format == "json":
             q += "alt=json&"
+        elif self.response_format == "xml":
+            q += "alt=xml&"
         return q.rstrip('&')
 
     def execute_query(self, query):
