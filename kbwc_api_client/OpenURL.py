@@ -8,7 +8,6 @@ try:
     import json
 except ImportError:
     import simplejson as json
-import urllib2
 from util.xml2obj import xml2obj
 
 RFR_ID = "info/sid:oclc.org/KBWCpy"
@@ -45,16 +44,17 @@ class OpenURL(HttpApiClient):
              * pmid
              * doi
         '''
-        query_url = self.url_base + 'openurl/resolve' + self.create_query_string(**kwargs)
-        return self.execute_query(query_url)
+        query_url = self.url_base + 'openurl/resolve' 
+        params = self.create_query_params(**kwargs)
+        return self.execute_query(query_url, params)
 
-    def create_query_string(self, **kwargs):
+    def create_query_params(self, **kwargs):
         '''Format the arguments into a query string.
 
            Certain arguments are rewritten slightly to use the API conventions.
            institution_id and wskey are always added.
         '''
-        q = '?'
+        payload = {}
         for i in kwargs:
             if kwargs[i] is not None:
                 field_name = i
@@ -67,42 +67,37 @@ class OpenURL(HttpApiClient):
                     field_name = 'rft.id'
                     kwargs[i] = 'info:doi/' + kwargs[i]
 
-                try:
-                    escaped_val = urllib2.quote(kwargs[i])
-                except:
-                    # This will happen when the value is not a string
-                    escaped_val = kwargs[i]
-                q += "%s=%s&" % (field_name, escaped_val)
-        q += "rft.institution_id=%s&" % (self.institution_id,)
-        q += "rfr_id=%s&" % (RFR_ID,)
+                payload[field_name] = kwargs[i]
+        payload["rft.institution_id"] = self.institution_id
+        payload["rfr_id"] = RFR_ID
         if self.wskey:
-            q += "wskey=%s&" % (self.wskey,)
-        if self.response_format == "json":
-            q += "svc_id=json&"
-        elif self.response_format == "xml":
-            q += "svc_id=xml&"
-        return q.rstrip('&')
+            payload["wskey"] = self.wskey
+        payload["svc_id"] = self.response_format
+        return payload
 
-    def execute_query(self, query):
+    def execute_query(self, query_url, params):
         '''Calls the api with a particular query string and does some basic response parsing.'''
-        response = self.get_response(query)
+        response = self.get_response(query_url, params)
         if response is None:
             return None
         if self.response_format == "json":
-            d = json.load(response, encoding="UTF-8")
-            return self._json_reformat(d)
+            return self._json_reformat(response)
         else:
-            d = xml2obj(response)
-            return self._xml_reformat(d.get_result())
+            return self._xml_reformat(response)
         return None
     
     def _json_reformat(self, jsondata):
         self.LOG.debug("JSON Data from server: %s" % (jsondata,))
-        return jsondata
+        ref = json.loads(jsondata, encoding="UTF-8")
+        self.LOG.debug("JSON Data reformatted: %s" % (ref,))
+        return ref
 
     def _xml_reformat(self, xmldata):
         self.LOG.debug("XML Data from server: %s" % (xmldata,))
-        ref = xmldata['record']
+        obj = xml2obj(xmldata.encode('utf-8'))
+        d = obj.get_result()
+        ref = d['record']
         for i in ref:
             i[u'institution_id'] = [i[u'institution_id']]
+        self.LOG.debug("XML Data reformatted: %s" % (ref,))
         return ref

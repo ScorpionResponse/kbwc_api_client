@@ -18,22 +18,24 @@ class RestTest(unittest.TestCase):
         pass
 
     def testMapping(self):
-        '''create_query_string should do some mappings to the right api field'''
-        self.assertIn('q=', self.client_xml.create_query_string(keyword='test'))
-        self.assertIn('start-index=', self.client_xml.create_query_string(start_index=10))
-        self.assertIn('max-results=', self.client_xml.create_query_string(max_results=10))
-        self.assertIn('order-by=', self.client_xml.create_query_string(order_by='title'))
+        '''create_query_params should do some mappings to the right api field'''
+        self.assertIn('q', self.client_xml.create_query_params(keyword='test'))
+        self.assertIn('start-index', self.client_xml.create_query_params(start_index=10))
+        self.assertIn('max-results', self.client_xml.create_query_params(max_results=10))
+        self.assertIn('order-by', self.client_xml.create_query_params(order_by='title'))
 
     def testAdditionalFields(self):
-        '''create_query_string should add some additional fields'''
-        self.assertIn('institution_id=', self.client_xml.create_query_string(keyword='test'))
-        self.assertIn('wskey=', self.client_xml.create_query_string(keyword='test'))
+        '''create_query_params should add some additional fields'''
+        self.assertIn('institution_id', self.client_xml.create_query_params(keyword='test'))
+        self.assertIn('wskey', self.client_xml.create_query_params(keyword='test'))
 
     def testAltFormat(self):
-        self.assertIn('alt=xml', self.client_xml.create_query_string(keyword='test'))
-        self.assertIn('alt=json', self.client_json.create_query_string(keyword='test'))
-        self.assertNotIn('alt=json', self.client_xml.create_query_string(keyword='test'))
-        self.assertNotIn('alt=xml', self.client_json.create_query_string(keyword='test'))
+        self.assertIn('alt', self.client_xml.create_query_params(keyword='test'))
+        self.assertIn('alt', self.client_json.create_query_params(keyword='test'))
+        self.assertEqual('xml', self.client_xml.create_query_params(keyword='test')['alt'])
+        self.assertEqual('json', self.client_json.create_query_params(keyword='test')['alt'])
+        self.assertNotEqual('json', self.client_xml.create_query_params(keyword='test')['alt'])
+        self.assertNotEqual('xml', self.client_json.create_query_params(keyword='test')['alt'])
 
 
 def suite():

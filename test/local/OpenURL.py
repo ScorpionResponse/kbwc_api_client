@@ -17,24 +17,26 @@ class OpenURLTest(unittest.TestCase):
         pass
 
     def testMapping(self):
-        '''create_query_string should do some mappings between incoming parameters and the 
+        '''create_query_params should do some mappings between incoming parameters and the 
            actual values that will be used to do a kbwc query'''
-        self.assertIn('rft.title=', self.client_json.create_query_string(title='test title'))
-        self.assertNotIn('rft.foo=', self.client_json.create_query_string(foo='test value'))
-        self.assertIn('rft.id=info%3Adoi', self.client_json.create_query_string(doi='abc123'))
-        self.assertIn('rft.id=info%3Apmid', self.client_json.create_query_string(pmid='abc123'))
+        self.assertIn('rft.title', self.client_json.create_query_params(title='test title'))
+        self.assertNotIn('rft.foo', self.client_json.create_query_params(foo='test value'))
+        self.assertIn('rft.id', self.client_json.create_query_params(doi='abc123'))
+        self.assertIn('rft.id', self.client_json.create_query_params(pmid='abc123'))
 
     def testAdditionalFields(self):
-        '''create_query_string should always add some additional fields'''
-        self.assertIn('rft.institution_id=', self.client_json.create_query_string(keyword='test'))
-        self.assertIn('wskey=', self.client_json.create_query_string(keyword='test'))
-        self.assertIn('rfr_id=', self.client_json.create_query_string(keyword='test'))
+        '''create_query_params should always add some additional fields'''
+        self.assertIn('rft.institution_id', self.client_json.create_query_params(keyword='test'))
+        self.assertIn('wskey', self.client_json.create_query_params(keyword='test'))
+        self.assertIn('rfr_id', self.client_json.create_query_params(keyword='test'))
     
     def testAltFormat(self):
-        self.assertIn('svc_id=xml', self.client_xml.create_query_string(keyword='test'))
-        self.assertIn('svc_id=json', self.client_json.create_query_string(keyword='test'))
-        self.assertNotIn('svc_id=json', self.client_xml.create_query_string(keyword='test'))
-        self.assertNotIn('svc_id=xml', self.client_json.create_query_string(keyword='test'))
+        self.assertIn('svc_id', self.client_xml.create_query_params(keyword='test'))
+        self.assertIn('svc_id', self.client_json.create_query_params(keyword='test'))
+        self.assertEqual('xml', self.client_xml.create_query_params(keyword='test')['svc_id'])
+        self.assertEqual('json', self.client_json.create_query_params(keyword='test')['svc_id'])
+        self.assertNotEqual('json', self.client_xml.create_query_params(keyword='test')['svc_id'])
+        self.assertNotEqual('xml', self.client_json.create_query_params(keyword='test')['svc_id'])
 
 def suite():
     suite = unittest.makeSuite(OpenURLTest, 'test')
