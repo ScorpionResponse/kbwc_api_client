@@ -6,3 +6,4 @@ TODO items:
 - PUT/POST/DELETE
 - handle imports in a more standard way
 - Use 'requests' library to make HTTP calls
+- Improve XML to object conversion util
