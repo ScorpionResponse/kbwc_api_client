@@ -24,14 +24,15 @@ class RestTest(unittest.TestCase):
         self.assertEqual(len(npg_xml), 1, 'No XML result.')
         self.assertEqual(len(npg_json), 1, 'No JSON result.')
         self.assertEqual(npg_xml[0]['id'], npg_json[0]['id'], 'XML and JSON ids are different.')
+        self.assertEqual(npg_xml, npg_json)
 
-    def testListProviders(self):
+    def testListProvidersLength(self):
         '''Compare result size of XML and JSON list_providers calls'''
         xml = self.client_xml.list_providers()
         json = self.client_json.list_providers()
         self.assertEqual(len(xml['entries']), len(json['entries']), 'XML and JSON result sizes are different.')
 
-    def testSearchProviders(self):
+    def testSearchProvidersLength(self):
         '''Compare result size of XML and JSON search_providers calls'''
         xml = self.client_xml.search_providers('Nature')
         json = self.client_json.search_providers('Nature')
@@ -44,6 +45,7 @@ class RestTest(unittest.TestCase):
         self.assertEqual(len(npg_xml), 1, 'No XML result.')
         self.assertEqual(len(npg_json), 1, 'No JSON result.')
         self.assertEqual(npg_xml[0]['id'], npg_json[0]['id'], 'XML and JSON ids are different')
+        self.assertEqual(npg_xml, npg_json)
 
     def testGetEntrybyID(self):
         '''Compare results of get_entry with an entry_id'''
@@ -52,6 +54,7 @@ class RestTest(unittest.TestCase):
         self.assertEqual(len(entry_xml), 1, 'No XML result.')
         self.assertEqual(len(entry_json), 1, 'No JSON result.')
         self.assertEqual(entry_xml[0]['id'], entry_json[0]['id'], 'XML and JSON ids are different.')
+        self.assertEqual(entry_xml, entry_json)
 
     def testGetEntrybyUID(self):
         '''Compare results of get_entry with an entry_uid'''
@@ -60,6 +63,7 @@ class RestTest(unittest.TestCase):
         self.assertEqual(len(entry_xml), 1, 'No XML result.')
         self.assertEqual(len(entry_json), 1, 'No JSON result.')
         self.assertEqual(entry_xml[0]['id'], entry_json[0]['id'], 'XML and JSON ids are different.')
+        self.assertEqual(entry_xml, entry_json)
 
 
 def suite():

@@ -152,12 +152,16 @@ class Rest(HttpApiClient):
             else:
                 ref['entries'] = [ref['entry']]
             del ref['entry']
-            #for (k, v) in ref.iteritems():
             #    if k.startswith('os_'):
             #        new_k = 'os:' + k[3:]
             #        ref[new_k] = v
             #        del ref[k]
         else:
+            del xmldata[u'xmlns']
+            del xmldata[u'xmlns:kb']
+            xmldata[u'title'] = xmldata[u'title'][u'data']
+            xmldata[u'links'] = xmldata[u'link']
+            del xmldata[u'link']
             ref = [xmldata]
 
         self.LOG.debug("XML Data reformatted: %s" % (ref,))
