@@ -5,3 +5,4 @@ TODO items:
 - Test OpenURL more
 - PUT/POST/DELETE
 - handle imports in a more standard way
+- Use 'requests' library to make HTTP calls
