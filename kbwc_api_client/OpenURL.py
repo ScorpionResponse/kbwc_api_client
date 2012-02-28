@@ -102,4 +102,7 @@ class OpenURL(HttpApiClient):
 
     def _xml_reformat(self, xmldata):
         self.LOG.debug("XML Data from server: %s" % (xmldata,))
-        return xmldata['record']
+        ref = xmldata['record']
+        for i in ref:
+            i[u'institution_id'] = [i[u'institution_id']]
+        return ref

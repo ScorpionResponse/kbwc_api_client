@@ -58,20 +58,21 @@ def xml2obj(src):
         def __repr__(self):
             items = sorted(self._attrs.items())
             if self.data:
-                items.append(('data', self.data))
-            return u'{%s}' % ', '.join([u'%s:%s' % (k, repr(v)) for k, v in items])
+                items.append((u'data', self.data))
+            return u'{%s}' % ', '.join([u'%s:%s' % (repr(k), repr(v)) for k, v in items])
 
         def get_result(self):
             items = sorted(self._attrs.items())
             if self.data:
-                items.append(('data', self.data))
+                items.append((u'data', self.data))
             retval = {}
             #print items
             for k, v in items:
                 try:
                     retval[k] = v.get_result()
                 except:
-                    retval[k] = v
+                    #print v
+                    retval[k] = eval(repr(v))
             return retval
 
 
