@@ -16,6 +16,7 @@ def suite(inc_remote=False):
     suite.addTest(test.local.ApiClient.suite())
     suite.addTest(test.local.Rest.suite())
     suite.addTest(test.local.OpenURL.suite())
+    suite.addTest(test.local.xml2obj.suite())
     if inc_remote:
         suite.addTest(test.remote.Rest.suite())
         suite.addTest(test.remote.OpenURL.suite())
