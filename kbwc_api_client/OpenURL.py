@@ -93,7 +93,7 @@ class OpenURL(HttpApiClient):
             return self._json_reformat(d)
         else:
             d = xml2obj(response)
-            return self._xml_reformat(d.record)
+            return self._xml_reformat(d.get_result())
         return None
     
     def _json_reformat(self, jsondata):
@@ -102,4 +102,4 @@ class OpenURL(HttpApiClient):
 
     def _xml_reformat(self, xmldata):
         self.LOG.debug("XML Data from server: %s" % (xmldata,))
-        return xmldata
+        return xmldata['record']

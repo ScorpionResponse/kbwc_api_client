@@ -30,6 +30,3 @@ if len(sys.argv) > 1:
 
 runner = unittest.TextTestRunner(verbosity=2)
 runner.run(suite(include_remote_tests))
-
-
-    

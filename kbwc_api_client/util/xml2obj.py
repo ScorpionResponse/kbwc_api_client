@@ -8,7 +8,7 @@ def xml2obj(src):
     A simple function to converts XML data into native Python object.
     """
 
-    non_id_char = re.compile('[^_0-9a-zA-Z]')
+    non_id_char = re.compile('[^_0-9a-zA-Z:]')
 
     def _name_mangle(name):
         return non_id_char.sub('_', name)
@@ -60,6 +60,20 @@ def xml2obj(src):
             if self.data:
                 items.append(('data', self.data))
             return u'{%s}' % ', '.join([u'%s:%s' % (k, repr(v)) for k, v in items])
+
+        def get_result(self):
+            items = sorted(self._attrs.items())
+            if self.data:
+                items.append(('data', self.data))
+            retval = {}
+            #print items
+            for k, v in items:
+                try:
+                    retval[k] = v.get_result()
+                except:
+                    retval[k] = v
+            return retval
+
 
     class TreeBuilder(xml.sax.handler.ContentHandler):
 
