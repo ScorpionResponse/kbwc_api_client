@@ -141,7 +141,7 @@ class Rest(HttpApiClient):
         return ref
 
     def _xml_reformat(self, xmldata):
-        '''Reformat the XML response.  This mostly removes some junk feedparser stuck in there'''
+        '''Reformat the XML response.'''
         self.LOG.debug("XML Data from server: %s" % (xmldata,))
 
         ref = None
@@ -152,10 +152,6 @@ class Rest(HttpApiClient):
             else:
                 ref['entries'] = [ref['entry']]
             del ref['entry']
-            #    if k.startswith('os_'):
-            #        new_k = 'os:' + k[3:]
-            #        ref[new_k] = v
-            #        del ref[k]
         else:
             del xmldata[u'xmlns']
             del xmldata[u'xmlns:kb']
