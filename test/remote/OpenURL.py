@@ -20,6 +20,12 @@ class OpenURLTest(unittest.TestCase):
         json = self.client_json.openurl_query(title='Discrete Dynamics in Nature and Society', issn='1026-0226')
         self.assertEqual(len(xml), len(json))
 
+    def testResponseEqual(self):
+        '''Compare the exact contents of the XML and JSON results'''
+        xml = self.client_xml.openurl_query(title='Discrete Dynamics in Nature and Society', issn='1026-0226')
+        json = self.client_json.openurl_query(title='Discrete Dynamics in Nature and Society', issn='1026-0226')
+        self.assertEqual(xml, json)
+
     def tearDown(self):
         pass
 

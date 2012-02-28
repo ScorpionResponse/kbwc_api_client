@@ -16,6 +16,7 @@ def suite(inc_remote=False):
     suite.addTest(test.local.ApiClient.suite())
     suite.addTest(test.local.Rest.suite())
     suite.addTest(test.local.OpenURL.suite())
+    suite.addTest(test.local.xml2obj.suite())
     if inc_remote:
         suite.addTest(test.remote.Rest.suite())
         suite.addTest(test.remote.OpenURL.suite())
@@ -30,6 +31,3 @@ if len(sys.argv) > 1:
 
 runner = unittest.TextTestRunner(verbosity=2)
 runner.run(suite(include_remote_tests))
-
-
-    

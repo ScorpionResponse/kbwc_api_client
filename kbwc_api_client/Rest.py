@@ -3,13 +3,13 @@ An implementation of a REST API client for the KB.
 '''
 
 from ApiClient import HttpApiClient
-import feedparser
 import logging
 try:
     import json
 except ImportError:
     import simplejson as json
 import urllib2
+from util.xml2obj import xml2obj
 
 
 class Rest(HttpApiClient):
@@ -123,11 +123,8 @@ class Rest(HttpApiClient):
             d = json.load(response, encoding="UTF-8")
             return self._json_reformat(d)
         else:
-            d = feedparser.parse(response)
-            if d.bozo:
-                # 'bozo' is set by feedparser if the XML does not parse correctly
-                self.LOG.warn("%s - %s\n" % (d.bozo_exception.getLineNumber(), d.bozo_exception.getMessage()))
-            return self._xml_reformat(d)
+            d = xml2obj(response)
+            return self._xml_reformat(d.get_result())
         return None
 
     def _json_reformat(self, jsondata):
@@ -144,41 +141,24 @@ class Rest(HttpApiClient):
         return ref
 
     def _xml_reformat(self, xmldata):
-        '''Reformat the XML response.  This mostly removes some junk feedparser stuck in there'''
-        # feedparser was probably a bad choice
-        # Most of this code is here to remove the stuff it adds
+        '''Reformat the XML response.'''
         self.LOG.debug("XML Data from server: %s" % (xmldata,))
-        ref = {'entries': []}
-        for i in xmldata.entries:
-            # title_detail added by feedparser
-            del i['title_detail']
-            for l in i['links']:
-                # type added by feedparser
-                del l['type']
-                # do this to counteract the relative link processing
-                if l['rel'] == 'via' and 'href' in l and l['href'].startswith(self.url_base):
-                    l['href'] = ''
-            # According to the feedparser docs, this should not happen.  I believe it happens with:
-            # <link rel="via"/>
-            if 'link' in i:
-                del i['link']
-            # Reformat the underscores to colons again, not sure why this happens
-            entries = {}
-            for (k, v) in i.iteritems():
-                if k.startswith('kb_'):
-                    k = 'kb:' + k[3:]
-                entries[k] = v
-            ref['entries'].append(entries)
-        # Note that we're only pulling out the contents of the 'feed' part of the object
-        # all of the other stuff is added by feedparser
-        for (k, v) in xmldata.feed.iteritems():
-            if k.startswith('os_'):
-                k = 'os:' + k[3:]
-            ref[k] = v
+
+        ref = None
+        if 'entry' in xmldata.keys():
+            ref = xmldata
+            if isinstance(ref['entry'], list):
+                ref['entries'] = ref['entry']
+            else:
+                ref['entries'] = [ref['entry']]
+            del ref['entry']
+        else:
+            del xmldata[u'xmlns']
+            del xmldata[u'xmlns:kb']
+            xmldata[u'title'] = xmldata[u'title'][u'data']
+            xmldata[u'links'] = xmldata[u'link']
+            del xmldata[u'link']
+            ref = [xmldata]
 
         self.LOG.debug("XML Data reformatted: %s" % (ref,))
-        # if there is no data in 'feed' then all we want is the entries part of the response
-        if len(xmldata.feed) == 0:
-            return ref['entries']
-        else:
-            return ref
+        return ref

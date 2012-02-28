@@ -3,6 +3,5 @@ TODO items:
 - mock the response from the KBWC API so we don't make the query during dev/testing
 - better documentation
 - Test OpenURL more
-- remove feedparser
 - PUT/POST/DELETE
 - handle imports in a more standard way
