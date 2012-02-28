@@ -7,3 +7,5 @@ TODO items:
 - handle imports in a more standard way
 - Use 'requests' library to make HTTP calls
 - Improve XML to object conversion util
+- better requirements for installing dependencies
+- A to Z type searches
