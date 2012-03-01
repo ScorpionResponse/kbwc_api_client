@@ -4,8 +4,8 @@ KBWC APIs.  Only HTTP APIs are currently supported.
 """
 
 import logging
-import urllib2
-from version import __version__
+import requests
+from .version import __version__
 
 USER_AGENT = "KBWCpy (%s)" % (__version__,)
 
@@ -27,55 +27,52 @@ class HttpApiClient:
         self.url_base = url_base
         self.response_format = response_format
 
-    def create_query_string(self, **kwargs):
-        '''Format the arguments into a query string.
+    def create_query_params(self, **kwargs):
+        '''All subclasses should override this to provide some additional response handling.'''
+        raise NotImplementedError("This should be implemented in a subclass.")
 
-           Certain arguments are rewritten slightly to use the API conventions.
-           institution_id and wskey are always added.
-        '''
-        q = '?'
-        for i in kwargs:
-            if kwargs[i] is not None:
-                try:
-                    escaped_val = urllib2.quote(kwargs[i])
-                except:
-                    # This will happen when the value is not a string
-                    escaped_val = kwargs[i]
-                q += "%s=%s&" % (i, escaped_val)
-        q += "institution_id=%s&" % (self.institution_id,)
-        if self.wskey:
-            q += "wskey=%s&" % (self.wskey,)
-        if self.response_format == "json":
-            q += "alt=json&"
-        elif self.response_format == "xml":
-            q += "alt=xml&"
-        return q.rstrip('&')
+#        '''Format the arguments into a query string.
+#
+#           Certain arguments are rewritten slightly to use the API conventions.
+#           institution_id and wskey are always added.
+#        '''
+#        payload = {}
+#        for i in kwargs:
+#            if kwargs[i] is not None:
+#                payload[i] = kwargs[i]
+#        payload['institution_id'] = self.institution_id
+#        if self.wskey:
+#            q += "wskey=%s&" % (self.wskey,)
+#            payload['wskey'] = self.wskey
+#        payload['alt'] = self.response_format
+#        return payload
 
-    def get_response(self, query):
+    def get_response(self, query_url, params):
         '''Retrieves a response from the server and does minimal handling of response codes.
 
            Most clients should use execute_query(query) instead of this unless access
            to the raw response is required.
            Returns None if there was a problem.
         '''
-        self.LOG.info("Calling URL: %s" % (query,))
+        self.LOG.info("Calling URL: '%s' with params %s" % (query_url, params))
         headers = {'User-Agent': USER_AGENT}
         if self.response_format == 'json':
             headers['Accept'] = 'application/json'
         elif self.response_format == 'xml':
             headers['Accept'] = 'application/atom+xml'
-        request = urllib2.Request(query, headers=headers)
         try:
-            response = urllib2.urlopen(request)
+            r = requests.get(query_url, params=params, headers=headers)
             #self.LOG.debug("Response data from server: %s" % (response.read(),))
-        except urllib2.HTTPError, e:
-            self.LOG.warn("Status code %s from URL '%s'\n" % (e.code, query))
+        except ConnectionError, e:
+            self.LOG.warn("Problem making the requests for URL '%s'. Exception: %s\n" % (query_url, e))
             return None
-        except urllib2.URLError, e:
-            self.LOG.warn("Problem making the requests for URL '%s'. Exception: %s\n" % (query, e))
+
+        if r.status_code == requests.codes.ok:
+            self.LOG.debug("Status code %s from URL '%s'\n" % (r.status_code, query_url))
+        else:
+            self.LOG.warn("Status code %s from URL '%s'\n" % (r.status_code, query_url))
             return None
-        self.LOG.debug("Status code %s from URL '%s'\n" % (response.code, query))
-        return response
+        return r.text
 
     def execute_query(self, query):
         '''All subclasses should override this to provide some additional response handling.'''

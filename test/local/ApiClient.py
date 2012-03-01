@@ -22,16 +22,10 @@ class ApiClientTest(unittest.TestCase):
         with self.assertRaises(NotImplementedError):
             self.client_xml.execute_query('test_query')
 
-    def testAdditionalFields(self):
-        '''create_query_string should add some additional fields'''
-        self.assertIn('institution_id=', self.client_xml.create_query_string(keyword='test'))
-        self.assertIn('wskey=', self.client_xml.create_query_string(keyword='test'))
-
-    def testAltFormat(self):
-        self.assertIn('alt=xml', self.client_xml.create_query_string(keyword='test'))
-        self.assertIn('alt=json', self.client_json.create_query_string(keyword='test'))
-        self.assertNotIn('alt=json', self.client_xml.create_query_string(keyword='test'))
-        self.assertNotIn('alt=xml', self.client_json.create_query_string(keyword='test'))
+    def testExecuteNotImpl(self):
+        '''The ApiClient class should not support create_query_paramsy() directly.'''
+        with self.assertRaises(NotImplementedError):
+            self.client_xml.create_query_params(keyword='test_query')
 
 
 def suite():
