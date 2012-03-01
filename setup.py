@@ -12,7 +12,7 @@ setup(
     version = __version__,
     author = 'Paul Moss',
     author_email = 'mossp@oclc.org',
-    packages = ['kbwc_api_client',],
+    packages = ['kbwc_api_client', 'kbwc_api_client/util'],
     url = 'http://oclc.org/knowledgebase',
     license = 'LICENSE.txt',
     description = 'Client for the WorldCat knowledge base',

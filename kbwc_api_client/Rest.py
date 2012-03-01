@@ -2,13 +2,13 @@
 An implementation of a REST API client for the KB.
 '''
 
-from ApiClient import HttpApiClient
+from .ApiClient import HttpApiClient
 import logging
 try:
     import json
 except ImportError:
     import simplejson as json
-from util.xml2obj import xml2obj
+from .util.xml2obj import xml2obj
 
 
 class Rest(HttpApiClient):
