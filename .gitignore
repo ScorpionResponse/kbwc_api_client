@@ -3,3 +3,4 @@ dist/
 build/
 docs/_build
 MANIFEST
+kbwc_api_client.egg-info
