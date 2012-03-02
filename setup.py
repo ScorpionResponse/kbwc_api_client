@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 from kbwc_api_client.version import __version__
 import os
 import sys
@@ -12,9 +12,10 @@ setup(
     version = __version__,
     author = 'Paul Moss',
     author_email = 'mossp@oclc.org',
-    packages = ['kbwc_api_client', 'kbwc_api_client/util'],
     url = 'http://oclc.org/knowledgebase',
-    license = 'LICENSE.txt',
+    packages = ['kbwc_api_client', 'kbwc_api_client/util',],
+    install_requires = ['requests>=0.10.6'],
+    license = 'Apache Software License',
     description = 'Client for the WorldCat knowledge base',
     long_description = open('README.txt').read(),
     classifiers = [
