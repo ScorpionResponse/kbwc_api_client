@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 from kbwc_api_client.version import __version__
 import os
 import sys
