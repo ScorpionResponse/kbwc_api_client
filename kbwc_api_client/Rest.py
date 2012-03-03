@@ -3,18 +3,12 @@ An implementation of a REST API client for the KB.
 '''
 
 from .ApiClient import HttpApiClient
-import logging
-try:
-    import json
-except ImportError:
-    import simplejson as json
 from .util.xml2obj import xml2obj
+import json
 
 
 class Rest(HttpApiClient):
     '''Basic REST API that directly maps functions to most common KB queries'''
-
-    LOG = logging.getLogger("Rest")
 
     def __init__(self, institution_id, wskey, url_base="http://worldcat.org/webservices/kb/", response_format="xml"):
         HttpApiClient.__init__(self, institution_id, wskey, url_base, response_format)

@@ -63,7 +63,7 @@ class HttpApiClient:
         try:
             r = requests.get(query_url, params=params, headers=headers)
             #self.LOG.debug("Response data from server: %s" % (response.read(),))
-        except ConnectionError, e:
+        except requests.ConnectionError, e:
             self.LOG.warn("Problem making the requests for URL '%s'. Exception: %s\n" % (query_url, e))
             return None
 

@@ -1,5 +1,4 @@
 from kbwc_api_client.OpenURL import OpenURL
-import sys
 import unittest
 
 
@@ -28,6 +27,7 @@ class OpenURLTest(unittest.TestCase):
 
     def tearDown(self):
         pass
+
 
 def suite():
     suite = unittest.makeSuite(OpenURLTest, 'test')

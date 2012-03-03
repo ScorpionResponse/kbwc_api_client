@@ -3,14 +3,11 @@ An implementation of an OpenURL API client for the KB.
 '''
 
 from .ApiClient import HttpApiClient
-import logging
-try:
-    import json
-except ImportError:
-    import simplejson as json
 from .util.xml2obj import xml2obj
+import json
 
 RFR_ID = "info/sid:oclc.org/KBWCpy"
+
 
 class OpenURL(HttpApiClient):
     '''Basic OpenURL API that can resolve article citations to links.'''
@@ -44,7 +41,7 @@ class OpenURL(HttpApiClient):
              * pmid
              * doi
         '''
-        query_url = self.url_base + 'openurl/resolve' 
+        query_url = self.url_base + 'openurl/resolve'
         params = self.create_query_params(**kwargs)
         return self.execute_query(query_url, params)
 
@@ -85,7 +82,7 @@ class OpenURL(HttpApiClient):
         else:
             return self._xml_reformat(response)
         return None
-    
+
     def _json_reformat(self, jsondata):
         self.LOG.debug("JSON Data from server: %s" % (jsondata,))
         ref = json.loads(jsondata, encoding="UTF-8")

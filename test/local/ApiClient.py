@@ -1,5 +1,4 @@
 from kbwc_api_client.ApiClient import HttpApiClient
-import sys
 import unittest
 
 
@@ -22,7 +21,7 @@ class ApiClientTest(unittest.TestCase):
         with self.assertRaises(NotImplementedError):
             self.client_xml.execute_query('test_query')
 
-    def testExecuteNotImpl(self):
+    def testCreateParamsNotImpl(self):
         '''The ApiClient class should not support create_query_paramsy() directly.'''
         with self.assertRaises(NotImplementedError):
             self.client_xml.create_query_params(keyword='test_query')
