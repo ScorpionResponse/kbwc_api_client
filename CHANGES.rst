@@ -1,3 +1,7 @@
+Version 0.2.2 released 2012-03-03
+  * Check code with pep8/pyflakes
+  * Corrections based on pep8/pyflakes
+
 Version 0.2.1 released 2012-03-03
   * Changed extensions for prettier github viewing
 
