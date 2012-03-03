@@ -1,3 +1,6 @@
+Version 0.2.1 released 2012-03-03
+  * Changed extensions for prettier github viewing
+
 Version 0.2.0 released 2012-03-02
   * Changed packaging
   * Changed imports, bumping to 0.2
