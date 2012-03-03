@@ -37,11 +37,9 @@ Version 0.1.2 released 2011-08-04
   * more tests
 
 Version 0.1.1 released 2011-08-04
-
   * Separated stuff into better classes
   * added tests
   * added all kinds of packaging stuff
 
 Version 0.1.0 released 2011-08-02
-
   * Initial release
