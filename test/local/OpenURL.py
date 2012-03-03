@@ -1,6 +1,6 @@
 from kbwc_api_client.OpenURL import OpenURL
-import sys
 import unittest
+
 
 class OpenURLTest(unittest.TestCase):
     '''
@@ -17,7 +17,7 @@ class OpenURLTest(unittest.TestCase):
         pass
 
     def testMapping(self):
-        '''create_query_params should do some mappings between incoming parameters and the 
+        '''create_query_params should do some mappings between incoming parameters and the
            actual values that will be used to do a kbwc query'''
         self.assertIn('rft.title', self.client_json.create_query_params(title='test title'))
         self.assertNotIn('rft.foo', self.client_json.create_query_params(foo='test value'))
@@ -29,7 +29,7 @@ class OpenURLTest(unittest.TestCase):
         self.assertIn('rft.institution_id', self.client_json.create_query_params(keyword='test'))
         self.assertIn('wskey', self.client_json.create_query_params(keyword='test'))
         self.assertIn('rfr_id', self.client_json.create_query_params(keyword='test'))
-    
+
     def testAltFormat(self):
         self.assertIn('svc_id', self.client_xml.create_query_params(keyword='test'))
         self.assertIn('svc_id', self.client_json.create_query_params(keyword='test'))
@@ -37,6 +37,7 @@ class OpenURLTest(unittest.TestCase):
         self.assertEqual('json', self.client_json.create_query_params(keyword='test')['svc_id'])
         self.assertNotEqual('json', self.client_xml.create_query_params(keyword='test')['svc_id'])
         self.assertNotEqual('xml', self.client_json.create_query_params(keyword='test')['svc_id'])
+
 
 def suite():
     suite = unittest.makeSuite(OpenURLTest, 'test')

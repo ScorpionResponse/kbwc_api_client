@@ -1,6 +1,6 @@
 from kbwc_api_client.util.xml2obj import xml2obj
-import sys
 import unittest
+
 
 class xml2objTest(unittest.TestCase):
     '''
@@ -37,6 +37,7 @@ class xml2objTest(unittest.TestCase):
                                    u'url': u'http://www.hindawi.com/GetJournal.aspx?journal=ddns'}}
         result = xml2obj(xmldata).get_result()
         self.assertEquals(result, object_goal)
+
 
 def suite():
     suite = unittest.makeSuite(xml2objTest, 'test')
