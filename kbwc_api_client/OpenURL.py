@@ -3,12 +3,8 @@ An implementation of an OpenURL API client for the KB.
 '''
 
 from .ApiClient import HttpApiClient
-import logging
-try:
-    import json
-except ImportError:
-    import simplejson as json
 from .util.xml2obj import xml2obj
+import json
 
 RFR_ID = "info/sid:oclc.org/KBWCpy"
 

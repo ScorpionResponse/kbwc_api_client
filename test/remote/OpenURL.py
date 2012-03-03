@@ -1,5 +1,4 @@
 from kbwc_api_client.OpenURL import OpenURL
-import sys
 import unittest
 
 

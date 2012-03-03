@@ -7,7 +7,7 @@ test:
 	python test.py
 
 pyflakes:
-	pyflakes kbwc_api_client
+	find . -name "*.py" -exec pyflakes '{}' ';'
 
 pyc:
 	find . -name "*.pyc" -exec rm '{}' ';'

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import kbwc_api_client
-from pprint import pprint
+#from pprint import pprint
 import logging
 
 def list_all_collections(kbwc_client):

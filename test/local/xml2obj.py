@@ -1,5 +1,4 @@
 from kbwc_api_client.util.xml2obj import xml2obj
-import sys
 import unittest
 
 class xml2objTest(unittest.TestCase):
