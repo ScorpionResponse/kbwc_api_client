@@ -28,6 +28,7 @@ class OpenURLTest(unittest.TestCase):
     def tearDown(self):
         pass
 
+
 def suite():
     suite = unittest.makeSuite(OpenURLTest, 'test')
     return suite

@@ -1,7 +1,8 @@
-# stolen from 
+# stolen from
 # http://code.activestate.com/recipes/534109/
 import re
 import xml.sax.handler
+
 
 def xml2obj(src):
     """
@@ -30,7 +31,7 @@ def xml2obj(src):
                 return [self][key]
 
         def __contains__(self, name):
-            return self._attrs.has_key(name)
+            return name in self._attrs
 
         def __nonzero__(self):
             return bool(self._attrs or self.data)
@@ -74,7 +75,6 @@ def xml2obj(src):
                     #print v
                     retval[k] = eval(repr(v))
             return retval
-
 
     class TreeBuilder(xml.sax.handler.ContentHandler):
 

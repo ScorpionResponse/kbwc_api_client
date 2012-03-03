@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 pep8:
-	find . -name "*.py" -exec pep8 '--ignore=E501' '{}' ';'
+	find . -name "*.py" -exec pep8 '-r' '--ignore=E501' '{}' ';'
 
 test:
 	python test.py

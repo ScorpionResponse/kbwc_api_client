@@ -4,6 +4,7 @@ import kbwc_api_client
 #from pprint import pprint
 import logging
 
+
 def list_all_collections(kbwc_client):
     collection_list = []
     start_index = 1
@@ -17,6 +18,7 @@ def list_all_collections(kbwc_client):
         start_index = start_index + response_size
     return collection_list
 
+
 def collections_print(collections):
     columns = ['kb:owner_institution', 'kb:provider_uid', 'kb:provider_name', 'kb:collection_uid', 'title', 'kb:selected_entries', 'kb:available_entries']
     print '\t'.join(columns)
@@ -29,6 +31,7 @@ def collections_print(collections):
                 row += '\t'
         print row[0:-1]
 
+
 def main(inst_id):
     resp_form = 'xml'
     #print "Getting response in format: %s" % (resp_form,)
@@ -40,7 +43,7 @@ def main(inst_id):
     collections = list_all_collections(client)
     collections_print(collections)
     #response = client.list_collections()
-    #print "Response: " 
+    #print "Response: "
     #pprint(response)
 
 if __name__ == '__main__':
