@@ -17,7 +17,7 @@ setup(
     install_requires=['requests>=0.10.6'],
     license='Apache Software License',
     description='Client for the WorldCat knowledge base',
-    long_description=open('README.txt').read(),
+    long_description=open('README.rst').read(),
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',

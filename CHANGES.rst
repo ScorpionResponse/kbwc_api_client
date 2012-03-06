@@ -1,3 +1,6 @@
+Version 0.2.3 released 2012-03-05
+  * Use .rst files instead of .txt
+
 Version 0.2.2 released 2012-03-03
   * Check code with pep8/pyflakes
   * Corrections based on pep8/pyflakes
@@ -37,11 +40,9 @@ Version 0.1.2 released 2011-08-04
   * more tests
 
 Version 0.1.1 released 2011-08-04
-
   * Separated stuff into better classes
   * added tests
   * added all kinds of packaging stuff
 
 Version 0.1.0 released 2011-08-02
-
   * Initial release
