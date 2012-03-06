@@ -1,3 +1,6 @@
+Version 0.2.3 released 2012-03-05
+  * Use .rst files instead of .txt
+
 Version 0.2.2 released 2012-03-03
   * Check code with pep8/pyflakes
   * Corrections based on pep8/pyflakes
