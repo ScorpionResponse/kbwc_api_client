@@ -6,5 +6,4 @@ TODO items:
  * PUT/POST/DELETE
  * handle imports in a more standard way
  * Improve XML to object conversion util
- * better requirements for installing dependencies
  * A to Z type searches
