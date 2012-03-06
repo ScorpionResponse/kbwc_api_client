@@ -1,1 +1,3 @@
 requests>=0.10.6
+pep8
+pyflakes
