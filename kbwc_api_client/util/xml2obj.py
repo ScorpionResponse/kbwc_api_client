@@ -1,4 +1,4 @@
-# stolen from
+# This class is largely taken from:
 # http://code.activestate.com/recipes/534109/
 import re
 import xml.sax.handler
@@ -9,6 +9,8 @@ def xml2obj(src):
     A simple function to converts XML data into native Python object.
     """
 
+    # These characters will not directly translate from the XML to the
+    # python object.
     non_id_char = re.compile('[^_0-9a-zA-Z:]')
 
     def _name_mangle(name):
@@ -63,6 +65,9 @@ def xml2obj(src):
             return u'{%s}' % ', '.join([u'%s:%s' % (repr(k), repr(v)) for k, v in items])
 
         def get_result(self):
+            ''' This function exists to materialize the object into something
+            more complete than just a DataNode.
+            '''
             items = sorted(self._attrs.items())
             if self.data:
                 items.append((u'data', self.data))
