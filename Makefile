@@ -11,3 +11,7 @@ pyflakes:
 
 pyc:
 	find . -name "*.pyc" -exec rm '{}' ';'
+
+format_check: pep8 pyflakes
+
+pre_commit: format_check test
