@@ -29,5 +29,6 @@ if len(sys.argv) > 1:
         print 'Including Remote tests.'
         include_remote_tests = True
 
-runner = unittest.TextTestRunner(verbosity=2)
+runner = unittest.TextTestRunner(verbosity=1)
+#runner = unittest.TextTestRunner(verbosity=2)
 runner.run(suite(include_remote_tests))
