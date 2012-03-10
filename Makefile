@@ -3,7 +3,7 @@ SHELL := /bin/bash
 pep8:
 	find . -name "*.py" -exec pep8 '-r' '--ignore=E501' '{}' ';'
 
-test:
+run_test:
 	python test.py
 
 pyflakes:
@@ -14,4 +14,4 @@ pyc:
 
 format_check: pep8 pyflakes
 
-pre_commit: format_check test
+pre_commit: format_check run_test
