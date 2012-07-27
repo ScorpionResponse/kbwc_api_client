@@ -13,6 +13,12 @@ class Rest(HttpApiClient):
     def __init__(self, institution_id, wskey, url_base="http://worldcat.org/webservices/kb/", response_format="xml"):
         HttpApiClient.__init__(self, institution_id, wskey, url_base, response_format)
 
+    def list_settings(self, start_index=1, max_results=10, **kwargs):
+        query_url = self.url_base + 'rest/settings'
+        params = self.create_query_params(start_index=start_index, max_results=max_results, **kwargs)
+        del params['institution_id']
+        return self.execute_query(query_url, params)
+
     def get_settings(self, **kwargs):
         '''Return the settings for this institution and only this institution.'''
         query_url = self.url_base + 'rest/settings/' + str(self.institution_id)
